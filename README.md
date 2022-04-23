@@ -14,7 +14,8 @@ First, one has to set a distributional seed. Then, one can draw from the perturb
 
 ```R
 d_seed <- distributional_seed(n=1000,delta=10)
-# Sample from perturbed distribution
+# Sample from perturbed distribution 
+# drnorm is the equivalent of rnorm for distributional perturbations
 x <- drnorm(d_seed)
 
 # In the qqplot there are clear deviations from the standard Gaussian distribution
@@ -71,5 +72,5 @@ df <- data.frame(cbind(X,Y,Z1,Z2))
 data <- as.data.frame(cbind(Y,X))
 formulas <- list(Y~X, Y ~ X + I(X^2), Y ~ X + Z1, Y ~ X + Z2 + X^2, Y ~ X + Z1 + Z2 + X^2)
 calm(formulas,data=data, target="X")
-summary(lm(Y~X + Z1 + Z2 + X^2,data=df))
+#summary(lm(Y~X + Z1 + Z2 + X^2,data=df))
 ```
