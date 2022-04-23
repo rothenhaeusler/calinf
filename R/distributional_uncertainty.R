@@ -25,9 +25,10 @@ distributional_seed <- function(n,delta){
 #' qqnorm(drnorm(d_seed))
 #' # Compare to standard normal
 #' qqnorm(rnorm(1000))
+#'
+#' # Test whether it works for multi-dimensional data generation
 #' n <- 1000
 #' delta <- 1.3
-#' # Test whether it works for multi-dimensional data generation
 #' draw_perturbed_data <- function(n,delta){
 #'   #Set distributional seed
 #'   d_seed <- distributional_seed(n,delta)
