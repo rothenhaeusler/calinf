@@ -1,7 +1,7 @@
 # Calibrated inference: inference that accounts for both sampling and distributional uncertainty
 
 
-This package provides functions for calibrating linear models to account for both sampling and distributional uncertainty. In addition, helper functions are provided to simplify simulating from the distributional perturbation model.
+This package provides functions for calibrating linear models to account for both sampling and distributional uncertainty. In addition, helper functions are provided to simplify simulating from the distributional perturbation model. Details on the theoretical background can be found in [Yujin and Rothenhaeusler (2022)](https://arxiv.org/abs/2202.11886).
 
 ## How to install
 
