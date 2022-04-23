@@ -1,6 +1,6 @@
-Package: distributionaluncertainty
+Package: calinf
 Type: Package
-Title: Distributional Uncertainty
+Title: Calibrated inference: inference that accounts for both sampling and distributional uncertainty
 Version: 0.1.0
 Author: Dominik Rothenhaeusler, Yujin Jeong
 Maintainer: Dominik Rothenhaeusler <rdominik@stanford.edu>
