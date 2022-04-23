@@ -27,10 +27,10 @@ Drawing from a multivariate perturbed distribution.
 
 ```R
 #Set distributional seed
-  d_seed <- distributional_seed(n=1000,delta=2)
-  #Draw from perturbed model
-  x <- drnorm(d_seed)
-  y <- drnorm(d_seed)
+d_seed <- distributional_seed(n=1000,delta=2)
+#Draw from perturbed model
+x <- drnorm(d_seed)
+y <- drnorm(d_seed)
 ```
 
 Evaluation whether it works for multidimensional data generation.
