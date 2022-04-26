@@ -77,7 +77,7 @@ calm(formulas,data=data, target="X")
 
 ## Looking behind the curtain: a worked out example
 
-In this example, we show in detail the algebra behind calibrated inference. We assume that the population mean of Z1,...,Z4 is known to the data scientist through background knowledge. This can be used to calibrate the uncertainty of estimating the mean of X.
+In this example, we show in detail the algebra behind calibrated inference. We consider the setting where the data scientist wants to estimate E[X] based on a sample from a perturbed distribution, where the strength of the perturbation is unknown to the data scientist. We assume that the population mean of Z1,...,Z4 is known to the data scientist through background knowledge. This can be used to estimate the perturbation strength, that means calibrate inference for E[X].
 
 
 ```R
