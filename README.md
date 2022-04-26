@@ -95,6 +95,19 @@ sample_data <-  function(){
   return(df)
 }
 
+# In the following, we evaluate the coverage of standard (sampling) confidence intervals
+evaluate_sampling_ci <- function(df){
+  df <- sample_data() 
+  # constructing sampling confidence intervals with nominal coverage .95
+  sigmasq = var(df$X)/sqrt(n)
+  tquantile <- qt(p=.975,df=999)
+  ci <- c(mean(df$X)-tquantile*sqrt(sigmasq),mean(df$X)+tquantile*sqrt(sigmasq))
+}
+confidence_intervals <- sapply(1:1000,evaluate_sampling_ci)
+mean( confidence_intervals[1,] <= 2 & 2 <= confidence_intervals[2,])
+# for delta=10, the actual coverage is approximately .25, which is far from the target coverage
+
+
 # In the following, we evaluate the coverage of distributional confidence intervals
 evaluate_distributional_ci <- function(i){
   df <- sample_data() 
@@ -107,17 +120,6 @@ evaluate_distributional_ci <- function(i){
 
 confidence_intervals <- sapply(1:1000,evaluate_distributional_ci)
 mean( confidence_intervals[1,] <= 2 & 2 <= confidence_intervals[2,])
-# The actual coverage is close to the nominal coverage .95
+# For delta=10, the actual coverage is close to the nominal coverage .95
 
-# In the following, we evaluate the coverage of standard (sampling) confidence intervals
-evaluate_sampling_ci <- function(df){
-  df <- sample_data() 
-  # constructing sampling confidence intervals with nominal coverage .95
-  sigmasq = var(df$X)/sqrt(n)
-  tquantile <- qt(p=.975,df=999)
-  ci <- c(mean(df$X)-tquantile*sqrt(sigmasq),mean(df$X)+tquantile*sqrt(sigmasq))
-}
-confidence_intervals <- sapply(1:1000,evaluate_sampling_ci)
-mean( confidence_intervals[1,] <= 2 & 2 <= confidence_intervals[2,])
-# for delta=.25, the actual coverage is approximately .25, which is far from the target coverage
 ```
