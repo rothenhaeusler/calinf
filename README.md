@@ -70,7 +70,51 @@ Z2 <- rnorm(n)
 Y <- 1*X + X^2 + Z1 + Z2 + rnorm(n)
 df <- data.frame(cbind(X,Y,Z1,Z2))
 data <- as.data.frame(cbind(Y,X))
-formulas <- list(Y~X, Y ~ X + I(X^2), Y ~ X + Z1, Y ~ X + Z2 + X^2, Y ~ X + Z1 + Z2 + X^2)
+formulas <- list(Y~X, Y ~ X + I(X^2), Y ~ X + Z1, Y ~ X + Z2 + I(X^2), Y ~ X + Z1 + Z2 + I(X^2))
 calm(formulas,data=data, target="X")
 #summary(lm(Y~X + Z1 + Z2 + X^2,data=df))
+```
+
+## Looking behind the curtain: a worked out example
+
+In this example, we show in detail the algebra behind calibrated inference. We assume that the population mean of Z1,...,Z4 is known to the data scientist through background knowledge. This can be used to calibrate the uncertainty of estimating the mean of X.
+
+
+```R
+delta <- 10
+
+# Sample from a multivariate perturbation model
+sample_data <-  function(){
+d_seed <- distributional_seed(n=100,delta=delta)
+X <- drnorm(d_seed,mean=2,sd=2)
+Z1 <- drnorm(d_seed,mean=2.2,sd=2)
+Z2 <- drnorm(d_seed,mean=3.2,sd=3)
+Z3 <- drnorm(d_seed,mean=5.3,sd=4)
+Z4 <- drnorm(d_seed,mean=1,sd=2)
+df <- as.data.frame(cbind(X,Z1,Z2,Z3,Z4))
+return(df)
+}
+
+evaluate_distributional_ci <- function(i){
+df <- sample_data() 
+# constructing distributional confidence intervals with nominal coverage .95
+# Here, we use background knowledge about the population mean of Z1...Z4.
+sigmasq = var(df$X)*(mean(df$Z1-2.2)^2/var(df$Z1) + mean(df$Z2-3.2)^2/var(df$Z2) + mean(df$Z3-5.3)^2/var(df$Z3) + mean(df$Z4-1)^2/var(df$Z4))/4
+tquantile <- qt(p=.975,df=4)
+ci <- c(mean(df$X)-tquantile*sqrt(sigmasq),mean(df$X)+tquantile*sqrt(sigmasq))
+}
+
+confidence_intervals <- sapply(1:1000,evaluate_distributional_ci)
+mean( confidence_intervals[1,] <= 2 & 2 <= confidence_intervals[2,])
+
+
+evaluate_sampling_ci <- function(df){
+  df <- sample_data() 
+  # constructing sampling confidence intervals with nominal coverage .95
+  sigmasq = var(df$X)/sqrt(n)
+  tquantile <- qt(p=.975,df=999)
+  ci <- c(mean(df$X)-tquantile*sqrt(sigmasq),mean(df$X)+tquantile*sqrt(sigmasq))
+}
+confidence_intervals <- sapply(1:1000,evaluate_sampling_ci)
+mean( confidence_intervals[1,] <= 2 & 2 <= confidence_intervals[2,])
 ```

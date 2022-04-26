@@ -67,7 +67,7 @@ drnorm <- function(d_seed,mean=0,sd=1){
 #' Y <- 1*X + X^2 + Z1 + Z2 + rnorm(n)
 #' df <- data.frame(cbind(X,Y,Z1,Z2))
 #' data <- as.data.frame(cbind(Y,X))
-#' formulas <- list(Y~X, Y ~ X + I(X^2), Y ~ X + Z1, Y ~ X + Z2 + X^2, Y ~ X + Z1 + Z2 + X^2)
+#' formulas <- list(Y~X, Y ~ X + I(X^2), Y ~ X + Z1, Y ~ X + Z2 + I(X^2), Y ~ X + Z1 + Z2 + I(X^2))
 #' calm(formulas,data=data, target="X")
 #' summary(lm(Y~X + Z1 + Z2 + X^2,data=df))
 #' @export
@@ -102,6 +102,9 @@ calm <- function( formulas, data, target, ...){
   cat("Quantification of both distributional and sampling uncertainty")
   cat("\n\n")
   print(ret_table)
+  cat("\n")
+  cat("hat delta = ")
+  cat(delta)
   cat("\n")
 
 }
