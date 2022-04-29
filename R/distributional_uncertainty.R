@@ -160,7 +160,6 @@ caglm <- function(formulas, family, data, target, ...){
   
   for (j  in 1:length(formulas)){
     model <- glm(formulas[[j]], family = family, data=data)
-    print(model)
     infls[[j]] <- n*influence(model)$coefficients[,target]
     coefs[[j]] <- coef(model)[target]
   }
