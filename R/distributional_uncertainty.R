@@ -63,9 +63,39 @@ drnorm <- function(d_seed, mean = 0, sd = 1){
 #' d_seed <- distributional_seed(1000,10)
 #' drunif(d_seed)
 drunif <- function(d_seed, min = 0, max = 1){
-  unique <- runif(max(d_seed))
-  rv <- unique[d_seed] + 1/sqrt(length(unique(d_seed)))*runif(length(d_seed))
-  return(min + (max-min)*rv)
+  return(qunif(pnorm(drnorm(d_seed)), min = min, max, max))
+}
+
+#' Distributional random number generation (equivalent to rgamma)
+#' @param d_seed A distributional seed as returned by distributional_seed()
+#' @param shape shape parameter
+#' @param scale scale parameter
+#' @param rate an alternative way to specify the scale
+#' @examples
+#' d_seed <- distributional_seed(1000,10)
+#' drgamma(d_seed)
+drgamma <- function(d_seed, shape, rate = 1, scale = 1/rate){
+  return(qgamma(drunif(d_seed), shape = shape, scale = scale))
+}
+
+#' Distributional random number generation (equivalent to rbeta)
+#' @param d_seed A distributional seed as returned by distributional_seed()
+#' @param shape1/shape2 non-negative parameters of the Beta distribution
+#' @examples
+#' d_seed <- distributional_seed(1000,10)
+#' drbeta(d_seed)
+drbeta <- function(d_seed, shape1, shape2){
+  return(qbeta(drunif(d_seed), shape1 = shape1, shape2 = shape2))
+}
+
+#' Distributional random number generation (equivalent to rchisq)
+#' @param d_seed A distributional seed as returned by distributional_seed()
+#' @param df degrees of freedom
+#' @examples
+#' d_seed <- distributional_seed(1000,10)
+#' drchisq(d_seed)
+drchisq <- function(d_seed, df){
+  return(qchisq(drunif(d_seed), df = df))
 }
 
 #' Distributional random number generation (equivalent to rbinom)
